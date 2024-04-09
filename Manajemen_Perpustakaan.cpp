@@ -22,7 +22,6 @@ buku *head, *tail, *cur;
 
 void input(int i, string &judul, string &pengarang, string &penerbit, int &tahun, int &stok);
 void create(string &judul, string &pengarang, string &penerbit, int &tahun, int &stok);
-void newcreate(string &judul, string &pengarang, string &penerbit, int &tahun, int &stok);
 void print();
 void pinjam(int &riwayat, string &judul, int &stok);
 void kembali(int &riwayat, string &judul, int &stok);
@@ -51,22 +50,11 @@ int main()
             int n;
             cout << "Masukkan jumlah judul buku: ";
             cin >> n;
-            if (head == NULL)
-            {
                 for (int i = 0; i < n; i++)
                 {
                     input(i, judul, pengarang, penerbit, tahun, stok);
                     create(judul, pengarang, penerbit, tahun, stok);
                 }
-            }
-            else
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    input(i, judul, pengarang, penerbit, tahun, stok);
-                    newcreate(judul, pengarang, penerbit, tahun, stok);
-                }
-            }
             break;
         case 2:
             cout << "\t--DATA BUKU--" << endl;
@@ -170,6 +158,8 @@ void input(int i, string &judul, string &pengarang, string &penerbit, int &tahun
 
 void create(string &judul, string &pengarang, string &penerbit, int &tahun, int &stok)
 {
+    if (head == NULL)
+    {
     head = tail = NULL;
 
     buku *baru = new buku;
@@ -182,21 +172,21 @@ void create(string &judul, string &pengarang, string &penerbit, int &tahun, int 
     baru->prev = NULL;
 
     head = tail = baru;
-}
+    }
+    else
+    {
+        buku *baru = new buku;
+        baru->judul = judul;
+        baru->pengarang = pengarang;
+        baru->penerbit = penerbit;
+        baru->tahun = tahun;
+        baru->stok = stok;
+        baru->next = NULL;
+        baru->prev = tail;
 
-void newcreate(string &judul, string &pengarang, string &penerbit, int &tahun, int &stok)
-{
-    buku *baru = new buku;
-    baru->judul = judul;
-    baru->pengarang = pengarang;
-    baru->penerbit = penerbit;
-    baru->tahun = tahun;
-    baru->stok = stok;
-    baru->next = NULL;
-    baru->prev = tail;
-
-    tail->next = baru;
-    tail = baru;
+        tail->next = baru;
+        tail = baru;
+    }
 }
 
 void print()
